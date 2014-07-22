@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9AC2758B-BD6D-40C4-B201-82003F9985E3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sewatek_components</RootNamespace>
+    <AssemblyName>Sewatek_components</AssemblyName>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tekla.Structures, Version=20.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\TeklaStructures\18.0\nt\bin\plugins\Tekla.Structures.dll</HintPath>
+    </Reference>
+    <Reference Include="Tekla.Structures.Catalogs, Version=20.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\TeklaStructures\18.0\nt\bin\plugins\Tekla.Structures.Catalogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Tekla.Structures.Datatype, Version=18.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\TeklaStructures\18.0\nt\bin\plugins\Tekla.Structures.Datatype.dll</HintPath>
+    </Reference>
+    <Reference Include="Tekla.Structures.Dialog, Version=18.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\TeklaStructures\18.0\nt\bin\dialogs\Tekla.Structures.Dialog.dll</HintPath>
+    </Reference>
+    <Reference Include="Tekla.Structures.Model, Version=18.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\TeklaStructures\18.0\nt\bin\plugins\Tekla.Structures.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Tekla.Structures.Plugins">
+      <HintPath>..\..\..\..\..\..\..\TeklaStructures\18.0\nt\bin\plugins\Tekla.Structures.Plugins.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EB_ONTELOLAATTALAPIVIENTI_INP.cs" />
+    <Compile Include="EB_ONTELOLAATTALAPIVIENTI_MTH.cs" />
+    <Compile Include="EB_PAIKALLAVALULAPIVIENTI.cs" />
+    <Compile Include="EB_PAIKALLAVALULAPIVIENTI_INP.cs" />
+    <Compile Include="EB_PAIKALLAVALULAPIVIENTI_MTH.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_LV_K160_2.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_LV_K160_2_INP.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_LV_K160_2_MTH.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_LV_K160_3.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_LV_K160_3_INP.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_LV_K160_3_MTH.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K100.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K100_INP.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K100_MTH.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K120.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K120_INP.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K120_MTH.cs" />
+    <Compile Include="EB_JALKIASENNUSLAPIVIENTI_INP.cs" />
+    <Compile Include="EB_JALKIASENNUSLAPIVIENTI.cs" />
+    <Compile Include="EB_ONTELOLAATTALAPIVIENTI.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K160.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K160_INP.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K160_MTH.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K70.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K70_INP.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_MOD_K70_MTH.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_SAH_2R.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_SAH_2R_INP.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_SAH_2R_MTH.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_SAH_3R.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_SAH_3R_INP.cs" />
+    <Compile Include="EB_SEINALAPIVIENTI_SAH_3R_MTH.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StructuresData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
