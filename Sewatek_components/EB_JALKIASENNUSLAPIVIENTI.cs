@@ -217,7 +217,7 @@ namespace Sewatek_components
             else
                 _AspreAttribut1 = "EB_JAL";
 
-            _MaterialAttribute = "Steel_undefined";
+            _MaterialAttribute = "Misc_undefined";
 
             if (!IsDefaultValue(_Data.wpanel))
                 _PanelWidth = _Data.wpanel;
