@@ -230,6 +230,8 @@ namespace Sewatek_components
                 _AspreAttribut1 = _Data.P6a;
             else
                 _AspreAttribut1 = "EB_ONT";
+                
+            _MaterialAttribute = "Misc_undefined";
 
             if (_Data.UDAn1 != String.Empty && _Data.UDAv1 != String.Empty)
             {
