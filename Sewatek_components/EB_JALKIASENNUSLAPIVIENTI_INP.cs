@@ -48,7 +48,7 @@ namespace Sewatek_components
         @"          picture(""line"", 200,10,10,230)"  + "\n" +
         @"          attribute("""", ""Product code"", label2,""%s"",  none, none, ""0.0"", ""0.0"",59,264)" + "\n" +
         @"          parameter("""", ""P3a"", string, text, 180,264,400)" + "\n" +
-        @"          attribute("""", ""Panel widht"", label2,""%s"",  none, none, ""0.0"", ""0.0"",59,294)" + "\n" +
+        @"          attribute("""", ""Panel width"", label2,""%s"",  none, none, ""0.0"", ""0.0"",59,294)" + "\n" +
         @"          parameter("""", ""wpanel"", distance, number, 180,294,400)" + "\n" +
         @"          attribute("""", ""Pipe profile"", label2,""%s"",  none, none, ""0.0"", ""0.0"",59,324)" + "\n" +
         @"          parameter("""", ""profpipe"", profile, text, 180,324,400)" + "\n" +
