@@ -66,25 +66,25 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tekla.Structures, Version=21.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+    <Reference Include="Tekla.Structures, Version=21.1.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\TeklaStructures\21.0\nt\bin\plugins\Tekla.Structures.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\TeklaStructures\21.1\nt\bin\plugins\Tekla.Structures.dll</HintPath>
     </Reference>
-    <Reference Include="Tekla.Structures.Catalogs, Version=21.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+    <Reference Include="Tekla.Structures.Catalogs, Version=21.1.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\TeklaStructures\21.0\nt\bin\plugins\Tekla.Structures.Catalogs.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\TeklaStructures\21.1\nt\bin\plugins\Tekla.Structures.Catalogs.dll</HintPath>
     </Reference>
-    <Reference Include="Tekla.Structures.Datatype, Version=21.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\TeklaStructures\21.0\nt\bin\plugins\Tekla.Structures.Datatype.dll</HintPath>
+    <Reference Include="Tekla.Structures.Datatype, Version=21.1.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\TeklaStructures\21.1\nt\bin\plugins\Tekla.Structures.Datatype.dll</HintPath>
     </Reference>
-    <Reference Include="Tekla.Structures.Dialog, Version=21.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\TeklaStructures\21.0\nt\bin\dialogs\Tekla.Structures.Dialog.dll</HintPath>
+    <Reference Include="Tekla.Structures.Dialog, Version=21.1.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\TeklaStructures\21.1\nt\bin\dialogs\Tekla.Structures.Dialog.dll</HintPath>
     </Reference>
-    <Reference Include="Tekla.Structures.Model, Version=21.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\TeklaStructures\21.0\nt\bin\plugins\Tekla.Structures.Model.dll</HintPath>
+    <Reference Include="Tekla.Structures.Model, Version=21.1.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\TeklaStructures\21.1\nt\bin\plugins\Tekla.Structures.Model.dll</HintPath>
     </Reference>
     <Reference Include="Tekla.Structures.Plugins">
-      <HintPath>..\..\..\..\..\..\..\TeklaStructures\21.0\nt\bin\plugins\Tekla.Structures.Plugins.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\TeklaStructures\21.1\nt\bin\plugins\Tekla.Structures.Plugins.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
