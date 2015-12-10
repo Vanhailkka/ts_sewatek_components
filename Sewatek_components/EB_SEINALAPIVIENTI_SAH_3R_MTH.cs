@@ -41,7 +41,7 @@ namespace Sewatek_components
             Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_Xd * 4 + _Pd, _H / 2, Z)), new Chamfer(_H / 2, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING)));
             Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_Xd * 4 + _Pd, -(_H / 2), Z)), new Chamfer(_H / 2, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING)));
 
-            SetDefaultEmbedObjectAttributes(ref plate1);
+            SetDefaultEmbedObjectAttributes(plate1, "0");
             plate1.Profile.ProfileString = "PL5";
             plate1.Position.Plane = Position.PlaneEnum.MIDDLE;
             plate1.Position.Rotation = Position.RotationEnum.FRONT;
@@ -60,71 +60,67 @@ namespace Sewatek_components
             return plate1;
         }
 
-        private Beam CreatePutki(Point Point1)
+        private Beam CreatePipe(Point Point1, string partClass)
         {
-            Beam Putki1 = new Beam();
-            Point Origo = Point1;
+            var pipe = new Beam();
+            var origo = Point1;
 
-            SetDefaultEmbedObjectAttributes(ref Putki1);
-            Putki1.StartPoint = new Point(Origo + new Point(0.0, 0.0, -5));
-            Putki1.EndPoint = new Point(Origo + new Point(0.0, 0.0, -_PanelWidth + 5));
-            Putki1.Profile.ProfileString = "D40";
-            Putki1.Position.Plane = Position.PlaneEnum.MIDDLE;
-            Putki1.Position.Rotation = Position.RotationEnum.FRONT;
-            Putki1.Position.Depth = Position.DepthEnum.MIDDLE;
+            SetDefaultEmbedObjectAttributes(pipe, partClass);
+            pipe.StartPoint = new Point(origo + new Point(0.0, 0.0, -5));
+            pipe.EndPoint = new Point(origo + new Point(0.0, 0.0, -_PanelWidth + 5));
+            pipe.Profile.ProfileString = "D40";
+            pipe.Position.Plane = Position.PlaneEnum.MIDDLE;
+            pipe.Position.Rotation = Position.RotationEnum.FRONT;
+            pipe.Position.Depth = Position.DepthEnum.MIDDLE;
 
-            if (!Putki1.Insert())
+            if (!pipe.Insert())
             {
                 MessageBox.Show("Insert failed!");
-                Putki1 = null;
+                pipe = null;
             }
 
-            return Putki1;
+            return pipe;
         }
 
-        private Beam CreatePutkiL(Point Point1, double X, double Y)
+        private Beam CreatePutkiL(Point point, double X, double Y, string partClass)
         {
-            Beam Putki1 = new Beam();
-            Point Origo = Point1;
+            var pipe = new Beam();
+            var origo = point;
 
-            SetDefaultEmbedObjectAttributes(ref Putki1);
-            Putki1.StartPoint = new Point(Origo + new Point(X, Y, -5));
-            Putki1.EndPoint = new Point(Origo + new Point(X, Y, -_PanelWidth + 5));
-            Putki1.Profile.ProfileString = "D30";
-            Putki1.Position.Plane = Position.PlaneEnum.MIDDLE;
-            Putki1.Position.Rotation = Position.RotationEnum.FRONT;
-            Putki1.Position.Depth = Position.DepthEnum.MIDDLE;
+            SetDefaultEmbedObjectAttributes(pipe, partClass);
+            pipe.StartPoint = new Point(origo + new Point(X, Y, -5));
+            pipe.EndPoint = new Point(origo + new Point(X, Y, -_PanelWidth + 5));
+            pipe.Profile.ProfileString = "D30";
+            pipe.Position.Plane = Position.PlaneEnum.MIDDLE;
+            pipe.Position.Rotation = Position.RotationEnum.FRONT;
+            pipe.Position.Depth = Position.DepthEnum.MIDDLE;
 
-            if (!Putki1.Insert())
+            if (!pipe.Insert())
             {
                 MessageBox.Show("Insert failed!");
-                Putki1 = null;
+                pipe = null;
             }
 
-            return Putki1;
+            return pipe;
         }
 
-        private void CreatePutkiLM(Point Point1)
+        private void CreatePipeGroup(Point point)
         {
-            Point StartPoint = Point1;
-            int l = 0;
-            while (l < 3)
-            {
-                double[] Xcoord = { -20, 0.0, 20 };
-                double[] Ycoord = { -11.67, 23.33, -11.67 };
-
-                Welds.Add(new Weld());
-                Parts.Add(CreatePutkiL(StartPoint, Xcoord[l], Ycoord[l]));
-                l++;
-            }
+           double[] Xcoord = { -20, 0.0, 20 };
+           double[] Ycoord = { -11.67, 23.33, -11.67 };
+           for (var i = 0; i < 3; i++)
+           {
+              Welds.Add(new Weld());
+              Parts.Add(CreatePutkiL(point, Xcoord[i], Ycoord[i], "0"));
+           }
         }
 
         private void CreateWelds(List<ModelObject> parts, List<Weld> welds)
         {
             for (int w = 0; w < welds.Count; w++)
             {
-                welds[w].MainObject = parts[0] as ModelObject;
-                welds[w].SecondaryObject = parts[w] as ModelObject;
+                welds[w].MainObject = parts[0];
+                welds[w].SecondaryObject = parts[w];
                 welds[w].ShopWeld = true;
                 welds[w].Insert();
             }

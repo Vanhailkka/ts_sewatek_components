@@ -193,7 +193,7 @@ namespace Sewatek_components
             else
                 _AspreAttribut1 = "EB_PAIK";
                 
-            _MaterialAttribute = "Misc_undefined";
+            _MaterialAttribute = "Misc_Undefined";
 
             if (_Data.UDAn1 != String.Empty && _Data.UDAv1 != String.Empty)
             {

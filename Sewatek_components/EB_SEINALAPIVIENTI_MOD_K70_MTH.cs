@@ -1,16 +1,8 @@
 ﻿using System.Windows.Forms;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
-using Tekla.Structures.Datatype;
 using Tekla.Structures.Model;
-using Tekla.Structures.Plugins;
-using Tekla.Structures.Model.UI;
 using Tekla.Structures.Geometry3d;
-using Tekla.Structures;
-using Tekla.Structures.Solid;
 
 namespace Sewatek_components
 {
@@ -32,14 +24,14 @@ namespace Sewatek_components
 
         private ContourPlate CreatePlate(Point Point1, double Z, Position.DepthEnum PosDepVal)
         {
-            ContourPlate plate1 = new ContourPlate();
-            Point Origo = Point1;
-            ArrayList Cpoints = new ArrayList();
+            var plate1 = new ContourPlate();
+            var origo = Point1;
+            var contourPoints = new ArrayList();
 
-            Cpoints.Add(new ContourPoint(new Point(Origo + new Point(-(_B / 2), -(_H / 2), Z)), null));
-            Cpoints.Add(new ContourPoint(new Point(Origo + new Point(-(_B / 2), _H / 2, Z)), null));
-            Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_B / 2, _H / 2, Z)), null));
-            Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_B / 2, -(_H / 2), Z)), null));
+            contourPoints.Add(new ContourPoint(new Point(origo + new Point(-(_B / 2), -(_H / 2), Z)), null));
+            contourPoints.Add(new ContourPoint(new Point(origo + new Point(-(_B / 2), _H / 2, Z)), null));
+            contourPoints.Add(new ContourPoint(new Point(origo + new Point(_B / 2, _H / 2, Z)), null));
+            contourPoints.Add(new ContourPoint(new Point(origo + new Point(_B / 2, -(_H / 2), Z)), null));
 
             SetDefaultEmbedObjectAttributes(plate1, "0");
             plate1.Profile.ProfileString = "PL2";
@@ -47,7 +39,7 @@ namespace Sewatek_components
             plate1.Position.Rotation = Position.RotationEnum.FRONT;
             plate1.Position.Depth = PosDepVal;
 
-            foreach (ContourPoint point in Cpoints)
+            foreach (ContourPoint point in contourPoints)
             {
                 plate1.AddContourPoint(point);
             }
@@ -84,13 +76,13 @@ namespace Sewatek_components
 
         private void CreateWelds(List<ModelObject> parts, List<Weld> welds)
         {
-            for (int w = 0; w < welds.Count; w++)
+            for (int weldIndex = 0; weldIndex < welds.Count; weldIndex++)
             {
                 int npA = parts.Count - welds.Count; //Number of parts for Assembly
-                welds[w].MainObject = parts[npA + 2] as ModelObject;
-                welds[w].SecondaryObject = parts[npA + w] as ModelObject;
-                welds[w].ShopWeld = true;
-                welds[w].Insert();
+                welds[weldIndex].MainObject = parts[npA + 2] ;
+                welds[weldIndex].SecondaryObject = parts[npA + weldIndex];
+                welds[weldIndex].ShopWeld = true;
+                welds[weldIndex].Insert();
             }
         }
     }

@@ -12,7 +12,7 @@ using Tekla.Structures;
 using Tekla.Structures.Dialog;
 using Tekla.Structures.Dialog.UIControls;
 using TSD = Tekla.Structures.Datatype;
-using Point = Tekla.Structures.Geometry3d.Point;
+using var = Tekla.Structures.Geometry3d;
 using System.Globalization;
 
 namespace Sewatek_components
@@ -66,35 +66,35 @@ namespace Sewatek_components
         #region Overrides
         public override List<InputDefinition> DefineInput()
         {
-            Picker POKPicker = new Picker();
-            List<InputDefinition> PointList = new List<InputDefinition>();
-            ArrayList PickedPoints = POKPicker.PickPoints(Picker.PickPointEnum.PICK_TWO_POINTS);
+            var picker = new Picker();
+            var pointList = new List<InputDefinition>();
+            var pickedPoints = picker.PickPoints(Picker.PickPointEnum.PICK_TWO_POINTS);
 
-            PointList.Add(new InputDefinition(PickedPoints));
+            pointList.Add(new InputDefinition(pickedPoints));
 
-            return PointList;
+            return pointList;
         }
 
         public override bool Run(List<InputDefinition> Input)
         {
             try
             {
-                TransformationPlane CurrentPlane = _Model.GetWorkPlaneHandler().GetCurrentTransformationPlane();
+                var currentPlane = _Model.GetWorkPlaneHandler().GetCurrentTransformationPlane();
 
                 GetValuesFromDialog();
 
-                ArrayList Points = (ArrayList)Input[0].GetInput();
-                Point StartPoint = Points[0] as Point;
-                Point EndPoint = Points[1] as Point;
+                var points = (ArrayList)Input[0].GetInput();
+                var startPoint = points[0] as Point;
+                var endPoint = points[1] as Point;
 
-                LineSegment AxisLine = new LineSegment(StartPoint, EndPoint);
-                Vector XAxisI = AxisLine.GetDirectionVector();
-                Vector YAxisI = new Vector(0, 0, 1);
+                var axisLine = new LineSegment(startPoint, endPoint);
+                var XAxisI = axisLine.GetDirectionVector();
+                var YAxisI = new Vector(0, 0, 1);
 
-                CoordSysI = new CoordinateSystem(StartPoint, XAxisI, YAxisI);
-                TransformationPlane localPlane = new TransformationPlane(CoordSysI);
+                CoordSysI = new CoordinateSystem(startPoint, XAxisI, YAxisI);
+                var localPlane = new TransformationPlane(CoordSysI);
 
-                Beam Putki;
+                Beam pipe;
 
                 _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(localPlane);
 
@@ -102,31 +102,38 @@ namespace Sewatek_components
 
                 for (int j = 1; j <= 5; j++)
                 {
-                    Point pt = new Point(Xdist, 0.0, 0.0);
+                    var pt = new Point(Xdist, 0.0, 0.0);
                     if (j == 3 || j == 5)
                     {
-                        CreatePutkiLM(pt);
+                        CreatePipeGroup(pt);
                     }
                     else
                     {
-                        Putki = CreatePutki(pt);
-                        Parts.Add(Putki);
+                       if (j == 1)
+                       {
+                          pipe = CreatePipe(pt, "100");
+                       }
+                       else
+                       {
+                          pipe = CreatePipe(pt, "0");
+                       }
+                       Parts.Add(pipe);
                         Welds.Add(new Weld());
                     }
                     Xdist += _Xd;
                 }
 
-                CreatePlateM(StartPoint);
-                Beam putkiMain = Parts[0] as Beam;
+                CreatePlateM(startPoint);
+                var putkiMain = Parts[0] as Beam;
                 InsertUDAs(ref putkiMain);
                 CreateWelds(Parts, Welds);
 
-                _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(CurrentPlane);
+                _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(currentPlane);
 
             }
-            catch (Exception Exc)
+            catch (Exception exception)
             {
-                MessageBox.Show(Exc.Message);
+                MessageBox.Show(exception.Message);
             }
 
             return true;
@@ -147,12 +154,12 @@ namespace Sewatek_components
             if (!IsDefaultValue(_Data.P1a))
                 _NameAttribute = _Data.P1a;
             else
-                _NameAttribute = "SEINALAPIVIENTI_SAH_3R";
+                _NameAttribute = "Sewatek";
 
             if (!IsDefaultValue(_Data.P2a))
                 _DescriptionAttribute = _Data.P2a;
             else
-                _DescriptionAttribute = "SEWATEK-SEINALAPIVIENTI SAHKOJOHDOILLE";
+               _DescriptionAttribute = "1 + 6, 3R, S200";
 
             if (!IsDefaultValue(_Data.P3a))
                 _ProductCodeAttribute = _Data.P3a;
@@ -174,7 +181,7 @@ namespace Sewatek_components
             else
                 _AspreAttribut1 = "EB_SAH_3R";
                 
-            _MaterialAttribute = "Misc_undefined";
+            _MaterialAttribute = "Misc_Undefined";
 
             if (_Data.UDAn1 != String.Empty && _Data.UDAv1 != String.Empty)
             {
@@ -195,30 +202,17 @@ namespace Sewatek_components
             }
         }
 
-        private void SetDefaultEmbedObjectAttributes(ref ContourPlate Object)
+        private void SetDefaultEmbedObjectAttributes(Part part, string partClass)
         {
-            Object.PartNumber.Prefix = _AspreAttribut1;
-            Object.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-            Object.AssemblyNumber.Prefix = _AspreAttribut1;
-            Object.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
+            part.PartNumber.Prefix = _AspreAttribut1;
+            part.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
+            part.AssemblyNumber.Prefix = _AspreAttribut1;
+            part.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
 
-            Object.Name = _NameAttribute;
-            Object.Material.MaterialString = _MaterialAttribute;
-            Object.Finish = _FinishAttribute;
-            Object.Class = "100";
-        }
-
-        private void SetDefaultEmbedObjectAttributes(ref Beam Object)
-        {
-            Object.PartNumber.Prefix = _AspreAttribut1;
-            Object.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-            Object.AssemblyNumber.Prefix = _AspreAttribut1;
-            Object.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-
-            Object.Name = _NameAttribute;
-            Object.Material.MaterialString = _MaterialAttribute;
-            Object.Finish = _FinishAttribute;
-            Object.Class = "100";
+            part.Name = _NameAttribute;
+            part.Material.MaterialString = _MaterialAttribute;
+            part.Finish = _FinishAttribute;
+            part.Class = partClass;
         }
 
         private void InsertUDAs(ref Beam Object)

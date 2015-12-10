@@ -196,7 +196,7 @@ namespace Sewatek_components
             else
                 _AspreAttribut1 = "EB_MOD_K100";
                 
-            _MaterialAttribute = "Misc_undefined";
+            _MaterialAttribute = "Misc_Undefined";
 
             if (_data.UDAn1 != String.Empty && _data.UDAv1 != String.Empty)
             {

@@ -23,9 +23,9 @@ namespace Sewatek_components
     public partial class EB_SEINALAPIVIENTI_MOD_K70 : PluginBase
     {
         #region Fields
-        private StructuresData _Data;
-        private Model _Model;
-        CoordinateSystem CoordSysI;
+        private StructuresData _data;
+        private Model _model;
+        CoordinateSystem _coordSysI;
 
         List<ModelObject> Parts = new List<ModelObject>();
 
@@ -63,8 +63,8 @@ namespace Sewatek_components
         #region Constructor
         public EB_SEINALAPIVIENTI_MOD_K70(StructuresData PluginData)
         {
-            this._Data = PluginData;
-            _Model = new Model();
+            this._data = PluginData;
+            _model = new Model();
         }
         #endregion
 
@@ -84,7 +84,7 @@ namespace Sewatek_components
         {
             try
             {
-                var currentPlane = _Model.GetWorkPlaneHandler().GetCurrentTransformationPlane();
+                var currentPlane = _model.GetWorkPlaneHandler().GetCurrentTransformationPlane();
 
                 GetValuesFromDialog();
 
@@ -96,12 +96,12 @@ namespace Sewatek_components
                 var XAxisI = AxisLine.GetDirectionVector();
                 var YAxisI = new Vector(0, 0, 1);
 
-                CoordSysI = new CoordinateSystem(startPoint, XAxisI, YAxisI);
-                var localPlane = new TransformationPlane(CoordSysI);
+                _coordSysI = new CoordinateSystem(startPoint, XAxisI, YAxisI);
+                var localPlane = new TransformationPlane(_coordSysI);
 
                 Beam pipe;
 
-                _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(localPlane);
+                _model.GetWorkPlaneHandler().SetCurrentTransformationPlane(localPlane);
 
                 if (_NumHorizParts >= 1 && _NumVertParts >= 1)
                 {
@@ -133,7 +133,7 @@ namespace Sewatek_components
                     }
                 }
 
-                _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(currentPlane);
+                _model.GetWorkPlaneHandler().SetCurrentTransformationPlane(currentPlane);
 
             }
             catch (Exception exception)
@@ -152,69 +152,69 @@ namespace Sewatek_components
         private void GetValuesFromDialog()
         {
 
-            if (!IsDefaultValue(_Data.wpanel))
-                _PanelWidth = _Data.wpanel;
+            if (!IsDefaultValue(_data.wpanel))
+                _PanelWidth = _data.wpanel;
             else
                 _PanelWidth = 200;
 
-            if (!IsDefaultValue(_Data.nHorP))
-                _NumHorizParts = Convert.ToInt16(_Data.nHorP);
+            if (!IsDefaultValue(_data.nHorP))
+                _NumHorizParts = Convert.ToInt16(_data.nHorP);
             else
                 _NumHorizParts = 1;
 
-            if (!IsDefaultValue(_Data.nVerP))
-                _NumVertParts = Convert.ToInt16(_Data.nVerP);
+            if (!IsDefaultValue(_data.nVerP))
+                _NumVertParts = Convert.ToInt16(_data.nVerP);
             else
                 _NumVertParts = 1;
 
-            if (!IsDefaultValue(_Data.P1a))
-                _NameAttribute = _Data.P1a;
+            if (!IsDefaultValue(_data.P1a))
+                _NameAttribute = _data.P1a;
             else
                 _NameAttribute = "SEINALAPIVIENTI_MOD_K70";
 
-            if (!IsDefaultValue(_Data.P2a))
-                _DescriptionAttribute = _Data.P2a;
+            if (!IsDefaultValue(_data.P2a))
+                _DescriptionAttribute = _data.P2a;
             else
                 _DescriptionAttribute = "SEWATEK-SEINALAPIVIENTI MODUULIRAKENTEINEN";
 
-            if (!IsDefaultValue(_Data.P3a))
-                _ProductCodeAttribute = _Data.P3a;
+            if (!IsDefaultValue(_data.P3a))
+                _ProductCodeAttribute = _data.P3a;
             else
                 _ProductCodeAttribute = "SEWATEK";
 
-            if (!IsDefaultValue(_Data.P4a))
-                _AsnumAttribut1 = _Data.P4a;
+            if (!IsDefaultValue(_data.P4a))
+                _AsnumAttribut1 = _data.P4a;
             else
                 _AsnumAttribut1 = "1";
 
-            if (!IsDefaultValue(_Data.P5a))
-                _FinishAttribute = _Data.P5a;
+            if (!IsDefaultValue(_data.P5a))
+                _FinishAttribute = _data.P5a;
             else
                 _FinishAttribute = "Undefined";
 
-            if (!IsDefaultValue(_Data.P6a))
-                _AspreAttribut1 = _Data.P6a;
+            if (!IsDefaultValue(_data.P6a))
+                _AspreAttribut1 = _data.P6a;
             else
                 _AspreAttribut1 = "EB_MOD_K70";
                 
-            _MaterialAttribute = "Misc_undefined";
+            _MaterialAttribute = "Misc_Undefined";
 
-            if (_Data.UDAn1 != String.Empty && _Data.UDAv1 != String.Empty)
+            if (_data.UDAn1 != String.Empty && _data.UDAv1 != String.Empty)
             {
-                _UDAn1 = _Data.UDAn1;
-                _UDAv1 = _Data.UDAv1;
+                _UDAn1 = _data.UDAn1;
+                _UDAv1 = _data.UDAv1;
             }
 
-            if (_Data.UDAn2 != String.Empty && _Data.UDAv2 != String.Empty)
+            if (_data.UDAn2 != String.Empty && _data.UDAv2 != String.Empty)
             {
-                _UDAn2 = _Data.UDAn2;
-                _UDAv2 = _Data.UDAv2;
+                _UDAn2 = _data.UDAn2;
+                _UDAv2 = _data.UDAv2;
             }
 
-            if (_Data.UDAn3 != String.Empty && _Data.UDAv3 != String.Empty)
+            if (_data.UDAn3 != String.Empty && _data.UDAv3 != String.Empty)
             {
-                _UDAn3 = _Data.UDAn3;
-                _UDAv3 = _Data.UDAv3;
+                _UDAn3 = _data.UDAn3;
+                _UDAv3 = _data.UDAv3;
             }
         }
 
