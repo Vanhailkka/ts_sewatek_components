@@ -148,12 +148,12 @@ namespace Sewatek_components
             if (!IsDefaultValue(_Data.P1a))
                 _NameAttribute = _Data.P1a;
             else
-                _NameAttribute = "SEINALAPIVIENTI_LV_K160_2";
+                _NameAttribute = "Sewatek";
 
             if (!IsDefaultValue(_Data.P2a))
                 _DescriptionAttribute = _Data.P2a;
             else
-                _DescriptionAttribute = "SEWATEK-SEINALAPIVIENTI LAMPO– JA VESIPUTKILLE";
+               _DescriptionAttribute = "Cu18/18, K160_2, S200";
 
             if (!IsDefaultValue(_Data.P3a))
                 _ProductCodeAttribute = _Data.P3a;

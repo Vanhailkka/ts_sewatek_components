@@ -71,35 +71,35 @@ namespace Sewatek_components
         #region Overrides
         public override List<InputDefinition> DefineInput()
         {
-            Picker POKPicker = new Picker();
-            List<InputDefinition> PointList = new List<InputDefinition>();
-            ArrayList PickedPoints = POKPicker.PickPoints(Picker.PickPointEnum.PICK_TWO_POINTS);
+            var picker = new Picker();
+            var pointList = new List<InputDefinition>();
+            var pickedPoints = picker.PickPoints(Picker.PickPointEnum.PICK_TWO_POINTS);
 
-            PointList.Add(new InputDefinition(PickedPoints));
+            pointList.Add(new InputDefinition(pickedPoints));
 
-            return PointList;
+            return pointList;
         }
 
         public override bool Run(List<InputDefinition> Input)
         {
             try
             {
-                TransformationPlane CurrentPlane = _Model.GetWorkPlaneHandler().GetCurrentTransformationPlane();
+                var currentPlane = _Model.GetWorkPlaneHandler().GetCurrentTransformationPlane();
 
                 GetValuesFromDialog();
 
-                ArrayList Points = (ArrayList)Input[0].GetInput();
-                Point StartPoint = Points[0] as Point;
-                Point EndPoint = Points[1] as Point;
+                var points = (ArrayList)Input[0].GetInput();
+                var startPoint = points[0] as Point;
+                var endPoint = points[1] as Point;
 
-                LineSegment AxisLine = new LineSegment(StartPoint, EndPoint);
-                Vector XAxisI = AxisLine.GetDirectionVector();
-                Vector YAxisI = new Vector(0, 0, 1);
+                var AxisLine = new LineSegment(startPoint, endPoint);
+                var XAxisI = AxisLine.GetDirectionVector();
+                var YAxisI = new Vector(0, 0, 1);
 
-                CoordSysI = new CoordinateSystem(StartPoint, XAxisI, YAxisI);
-                TransformationPlane localPlane = new TransformationPlane(CoordSysI);
+                CoordSysI = new CoordinateSystem(startPoint, XAxisI, YAxisI);
+                var localPlane = new TransformationPlane(CoordSysI);
 
-                Beam Putki;
+                Beam pipe;
 
                 _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(localPlane);
 
@@ -113,24 +113,32 @@ namespace Sewatek_components
 
                         for (int j = 1; j <= _NumHorizParts; j++)
                         {
-                            Point pt = new Point(Xdist, Ydist, 0.0);
-                            CreatePlateM(pt);
-                            Putki = CreatePutki(pt);
-                            Parts.Add(Putki);
-                            InsertUDAs(ref Putki);
-                            CreateWelds(Parts, Welds);
-                            Xdist += _B;
+                            var point = new Point(Xdist, Ydist, 0.0);
+                            CreatePlateM(point);
+                           if (j == 1 && i == 1)
+                           {
+                              pipe = CreatePipe(point, "100");
+                           }
+                           else
+                           {
+                              pipe = CreatePipe(point, "0");
+                           }
+
+                           Parts.Add(pipe);
+                           InsertUDAs(pipe);
+                           CreateWelds(Parts, Welds);
+                           Xdist += _B;
                         }
                         Ydist += _H;
                     }
                 }
 
-                _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(CurrentPlane);
+                _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(currentPlane);
 
             }
-            catch (Exception Exc)
+            catch (Exception exception)
             {
-                MessageBox.Show(Exc.Message);
+                MessageBox.Show(exception.Message);
             }
 
             return true;
@@ -210,45 +218,34 @@ namespace Sewatek_components
             }
         }
 
-        private void SetDefaultEmbedObjectAttributes(ref ContourPlate Object)
-        {
-            Object.PartNumber.Prefix = _AspreAttribut1;
-            Object.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-            Object.AssemblyNumber.Prefix = _AspreAttribut1;
-            Object.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
+   
 
-            Object.Name = _NameAttribute;
-            Object.Material.MaterialString = _MaterialAttribute;
-            Object.Finish = _FinishAttribute;
-            Object.Class = "100";
+        private void SetDefaultEmbedObjectAttributes(Part part, string partClass)
+        {
+            part.PartNumber.Prefix = _AspreAttribut1;
+            part.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
+            part.AssemblyNumber.Prefix = _AspreAttribut1;
+            part.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
+
+            part.Name = _NameAttribute;
+            part.Material.MaterialString = _MaterialAttribute;
+            part.Finish = _FinishAttribute;
+            part.Class = partClass;
         }
 
-        private void SetDefaultEmbedObjectAttributes(ref Beam Object)
+        private void InsertUDAs(ModelObject modelObject)
         {
-            Object.PartNumber.Prefix = _AspreAttribut1;
-            Object.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-            Object.AssemblyNumber.Prefix = _AspreAttribut1;
-            Object.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-
-            Object.Name = _NameAttribute;
-            Object.Material.MaterialString = _MaterialAttribute;
-            Object.Finish = _FinishAttribute;
-            Object.Class = "100";
-        }
-
-        private void InsertUDAs(ref Beam Object)
-        {
-            Object.SetUserProperty("PRODUCT_DESCR", _DescriptionAttribute);
-            Object.SetUserProperty("PRODUCT_CODE", _ProductCodeAttribute);
+            modelObject.SetUserProperty("PRODUCT_DESCR", _DescriptionAttribute);
+            modelObject.SetUserProperty("PRODUCT_CODE", _ProductCodeAttribute);
 
             if (_UDAn1 != String.Empty && _UDAv1 != String.Empty)
-                Object.SetUserProperty(_UDAn1, _UDAv1);
+                modelObject.SetUserProperty(_UDAn1, _UDAv1);
 
             if (_UDAn2 != String.Empty && _UDAv2 != String.Empty)
-                Object.SetUserProperty(_UDAn2, _UDAv2);
+                modelObject.SetUserProperty(_UDAn2, _UDAv2);
 
             if (_UDAn3 != String.Empty && _UDAv3 != String.Empty)
-                Object.SetUserProperty(_UDAn3, _UDAv3);
+                modelObject.SetUserProperty(_UDAn3, _UDAv3);
         }
         #endregion
     }

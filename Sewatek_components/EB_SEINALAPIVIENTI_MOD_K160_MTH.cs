@@ -32,22 +32,22 @@ namespace Sewatek_components
 
         private ContourPlate CreatePlate(Point Point1, double Z, Position.DepthEnum PosDepVal)
         {
-            ContourPlate plate1 = new ContourPlate();
-            Point Origo = Point1;
-            ArrayList Cpoints = new ArrayList();
+            var plate1 = new ContourPlate();
+            var origo = Point1;
+            var contourPoints = new ArrayList();
 
-            Cpoints.Add(new ContourPoint(new Point(Origo + new Point(-(_B / 2), -(_H / 2), Z)), null));
-            Cpoints.Add(new ContourPoint(new Point(Origo + new Point(-(_B / 2), _H / 2, Z)), null));
-            Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_B / 2, _H / 2, Z)), null));
-            Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_B / 2, -(_H / 2), Z)), null));
+            contourPoints.Add(new ContourPoint(new Point(origo + new Point(-(_B / 2), -(_H / 2), Z)), null));
+            contourPoints.Add(new ContourPoint(new Point(origo + new Point(-(_B / 2), _H / 2, Z)), null));
+            contourPoints.Add(new ContourPoint(new Point(origo + new Point(_B / 2, _H / 2, Z)), null));
+            contourPoints.Add(new ContourPoint(new Point(origo + new Point(_B / 2, -(_H / 2), Z)), null));
 
-            SetDefaultEmbedObjectAttributes(ref plate1);
+            SetDefaultEmbedObjectAttributes(plate1, "0");
             plate1.Profile.ProfileString = "PL2";
             plate1.Position.Plane = Position.PlaneEnum.MIDDLE;
             plate1.Position.Rotation = Position.RotationEnum.FRONT;
             plate1.Position.Depth = PosDepVal;
 
-            foreach (ContourPoint point in Cpoints)
+            foreach (ContourPoint point in contourPoints)
             {
                 plate1.AddContourPoint(point);
             }
@@ -60,26 +60,26 @@ namespace Sewatek_components
             return plate1;
         }
 
-        private Beam CreatePutki(Point Point1)
+        private Beam CreatePutki(Point point1, string partClass)
         {
-            Beam Putki1 = new Beam();
-            Point Origo = Point1;
+            var pipe = new Beam();
+            var origo = point1;
 
-            SetDefaultEmbedObjectAttributes(ref Putki1);
-            Putki1.StartPoint = new Point(Origo + new Point(0.0, 0.0, -2));
-            Putki1.EndPoint = new Point(Origo + new Point(0.0, 0.0, -_PanelWidth + 2));
-            Putki1.Profile.ProfileString = "PD38*2";
-            Putki1.Position.Plane = Position.PlaneEnum.MIDDLE;
-            Putki1.Position.Rotation = Position.RotationEnum.FRONT;
-            Putki1.Position.Depth = Position.DepthEnum.MIDDLE;
+            SetDefaultEmbedObjectAttributes(pipe, partClass);
+            pipe.StartPoint = new Point(origo + new Point(0.0, 0.0, -2));
+            pipe.EndPoint = new Point(origo + new Point(0.0, 0.0, -_PanelWidth + 2));
+            pipe.Profile.ProfileString = "PD38*2";
+            pipe.Position.Plane = Position.PlaneEnum.MIDDLE;
+            pipe.Position.Rotation = Position.RotationEnum.FRONT;
+            pipe.Position.Depth = Position.DepthEnum.MIDDLE;
 
-            if (!Putki1.Insert())
+            if (!pipe.Insert())
             {
                 MessageBox.Show("Insert failed!");
-                Putki1 = null;
+                pipe = null;
             }
 
-            return Putki1;
+            return pipe;
         }
 
         private void CreateWelds(List<ModelObject> parts, List<Weld> welds)
@@ -87,8 +87,8 @@ namespace Sewatek_components
             for (int w = 0; w < welds.Count; w++)
             {
                 int npA = parts.Count - welds.Count; //Number of parts for Assembly
-                welds[w].MainObject = parts[npA + 2] as ModelObject;
-                welds[w].SecondaryObject = parts[npA + w] as ModelObject;
+                welds[w].MainObject = parts[npA + 2] ;
+                welds[w].SecondaryObject = parts[npA + w] ;
                 welds[w].ShopWeld = true;
                 welds[w].Insert();
             }

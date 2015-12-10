@@ -41,7 +41,7 @@ namespace Sewatek_components
             Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_B / 2, _H / 2, Z)), null));
             Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_B / 2, -(_H / 2), Z)), null));
 
-            SetDefaultEmbedObjectAttributes(ref plate1);
+            SetDefaultEmbedObjectAttributes(plate1, "0");
             plate1.Profile.ProfileString = "PL2";
             plate1.Position.Plane = Position.PlaneEnum.MIDDLE;
             plate1.Position.Rotation = Position.RotationEnum.FRONT;
@@ -60,26 +60,26 @@ namespace Sewatek_components
             return plate1;
         }
 
-        private Beam CreatePutki(Point Point1)
+        private Beam CreatePipe(Point point1, string partClass)
         {
-            Beam Putki1 = new Beam();
-            Point Origo = Point1;
+           var pipe1 = new Beam();
+           var origo = point1;
 
-            SetDefaultEmbedObjectAttributes(ref Putki1);
-            Putki1.StartPoint = new Point(Origo + new Point(0.0, 0.0, -2));
-            Putki1.EndPoint = new Point(Origo + new Point(0.0, 0.0, -_PanelWidth + 2));
-            Putki1.Profile.ProfileString = "PD38*2";
-            Putki1.Position.Plane = Position.PlaneEnum.MIDDLE;
-            Putki1.Position.Rotation = Position.RotationEnum.FRONT;
-            Putki1.Position.Depth = Position.DepthEnum.MIDDLE;
+           SetDefaultEmbedObjectAttributes(pipe1, partClass);
+           pipe1.StartPoint = new Point(origo + new Point(0.0, 0.0, -2));
+           pipe1.EndPoint = new Point(origo + new Point(0.0, 0.0, -_PanelWidth + 2));
+           pipe1.Profile.ProfileString = "PD38*2";
+           pipe1.Position.Plane = Position.PlaneEnum.MIDDLE;
+           pipe1.Position.Rotation = Position.RotationEnum.FRONT;
+           pipe1.Position.Depth = Position.DepthEnum.MIDDLE;
 
-            if (!Putki1.Insert())
-            {
-                MessageBox.Show("Insert failed!");
-                Putki1 = null;
-            }
+           if (!pipe1.Insert())
+           {
+              MessageBox.Show("Insert failed!");
+              pipe1 = null;
+           }
 
-            return Putki1;
+           return pipe1;
         }
 
         private void CreateWelds(List<ModelObject> parts, List<Weld> welds)

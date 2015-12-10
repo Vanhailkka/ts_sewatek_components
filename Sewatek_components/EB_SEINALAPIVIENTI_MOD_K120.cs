@@ -99,7 +99,7 @@ namespace Sewatek_components
                 CoordSysI = new CoordinateSystem(StartPoint, XAxisI, YAxisI);
                 TransformationPlane localPlane = new TransformationPlane(CoordSysI);
 
-                Beam Putki;
+                Beam pipe;
 
                 _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(localPlane);
 
@@ -115,9 +115,16 @@ namespace Sewatek_components
                         {
                             Point pt = new Point(Xdist, Ydist, 0.0);
                             CreatePlateM(pt);
-                            Putki = CreatePutki(pt);
-                            Parts.Add(Putki);
-                            InsertUDAs(ref Putki);
+                           if (j == 1 && i == 1)
+                           {
+                              pipe = CreatePipe(pt, "100");
+                           }
+                           else
+                           {
+                              pipe = CreatePipe(pt, "0");
+                           }
+                           Parts.Add(pipe);
+                            InsertUserdefinedAttributes(pipe);
                             CreateWelds(Parts, Welds);
                             Xdist += _B;
                         }
@@ -209,7 +216,9 @@ namespace Sewatek_components
             }
         }
 
-        private void SetDefaultEmbedObjectAttributes(ref ContourPlate Object)
+
+
+        private void SetDefaultEmbedObjectAttributes(Part Object, string partClass)
         {
             Object.PartNumber.Prefix = _AspreAttribut1;
             Object.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
@@ -219,35 +228,22 @@ namespace Sewatek_components
             Object.Name = _NameAttribute;
             Object.Material.MaterialString = _MaterialAttribute;
             Object.Finish = _FinishAttribute;
-            Object.Class = "100";
+            Object.Class = partClass;
         }
 
-        private void SetDefaultEmbedObjectAttributes(ref Beam Object)
+        private void InsertUserdefinedAttributes(ModelObject modelObject)
         {
-            Object.PartNumber.Prefix = _AspreAttribut1;
-            Object.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-            Object.AssemblyNumber.Prefix = _AspreAttribut1;
-            Object.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-
-            Object.Name = _NameAttribute;
-            Object.Material.MaterialString = _MaterialAttribute;
-            Object.Finish = _FinishAttribute;
-            Object.Class = "100";
-        }
-
-        private void InsertUDAs(ref Beam Object)
-        {
-            Object.SetUserProperty("PRODUCT_DESCR", _DescriptionAttribute);
-            Object.SetUserProperty("PRODUCT_CODE", _ProductCodeAttribute);
+            modelObject.SetUserProperty("PRODUCT_DESCR", _DescriptionAttribute);
+            modelObject.SetUserProperty("PRODUCT_CODE", _ProductCodeAttribute);
 
             if (_UDAn1 != String.Empty && _UDAv1 != String.Empty)
-                Object.SetUserProperty(_UDAn1, _UDAv1);
+                modelObject.SetUserProperty(_UDAn1, _UDAv1);
 
             if (_UDAn2 != String.Empty && _UDAv2 != String.Empty)
-                Object.SetUserProperty(_UDAn2, _UDAv2);
+                modelObject.SetUserProperty(_UDAn2, _UDAv2);
 
             if (_UDAn3 != String.Empty && _UDAv3 != String.Empty)
-                Object.SetUserProperty(_UDAn3, _UDAv3);
+                modelObject.SetUserProperty(_UDAn3, _UDAv3);
         }
         #endregion
     }

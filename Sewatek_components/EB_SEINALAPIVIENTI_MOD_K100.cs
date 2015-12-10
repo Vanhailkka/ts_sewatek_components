@@ -23,9 +23,9 @@ namespace Sewatek_components
     public partial class EB_SEINALAPIVIENTI_MOD_K100 : PluginBase
     {
         #region Fields
-        private StructuresData _Data;
-        private Model _Model;
-        CoordinateSystem CoordSysI;
+        private StructuresData _data;
+        private Model _model;
+        CoordinateSystem coordSysI;
 
         List<ModelObject> Parts = new List<ModelObject>();
 
@@ -63,45 +63,45 @@ namespace Sewatek_components
         #region Constructor
         public EB_SEINALAPIVIENTI_MOD_K100(StructuresData PluginData)
         {
-            this._Data = PluginData;
-            _Model = new Model();
+            this._data = PluginData;
+            _model = new Model();
         }
         #endregion
 
         #region Overrides
         public override List<InputDefinition> DefineInput()
         {
-            Picker POKPicker = new Picker();
-            List<InputDefinition> PointList = new List<InputDefinition>();
-            ArrayList PickedPoints = POKPicker.PickPoints(Picker.PickPointEnum.PICK_TWO_POINTS);
+            var picker = new Picker();
+            var pointList = new List<InputDefinition>();
+            var pickedPoints = picker.PickPoints(Picker.PickPointEnum.PICK_TWO_POINTS);
 
-            PointList.Add(new InputDefinition(PickedPoints));
+            pointList.Add(new InputDefinition(pickedPoints));
 
-            return PointList;
+            return pointList;
         }
 
         public override bool Run(List<InputDefinition> Input)
         {
             try
             {
-                TransformationPlane CurrentPlane = _Model.GetWorkPlaneHandler().GetCurrentTransformationPlane();
+                var currentPlane = _model.GetWorkPlaneHandler().GetCurrentTransformationPlane();
 
                 GetValuesFromDialog();
 
-                ArrayList Points = (ArrayList)Input[0].GetInput();
-                Point StartPoint = Points[0] as Point;
-                Point EndPoint = Points[1] as Point;
+                var points = (ArrayList)Input[0].GetInput();
+                var startPoint = points[0] as Point;
+                var endPoint = points[1] as Point;
 
-                LineSegment AxisLine = new LineSegment(StartPoint, EndPoint);
-                Vector XAxisI = AxisLine.GetDirectionVector();
-                Vector YAxisI = new Vector(0, 0, 1);
+                var AxisLine = new LineSegment(startPoint, endPoint);
+                var XAxisI = AxisLine.GetDirectionVector();
+                var YAxisI = new Vector(0, 0, 1);
 
-                CoordSysI = new CoordinateSystem(StartPoint, XAxisI, YAxisI);
-                TransformationPlane localPlane = new TransformationPlane(CoordSysI);
+                coordSysI = new CoordinateSystem(startPoint, XAxisI, YAxisI);
+                var localPlane = new TransformationPlane(coordSysI);
 
-                Beam Putki;
+                Beam pipe;
 
-                _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(localPlane);
+                _model.GetWorkPlaneHandler().SetCurrentTransformationPlane(localPlane);
 
                 if (_NumHorizParts >= 1 && _NumVertParts >= 1)
                 {
@@ -113,19 +113,26 @@ namespace Sewatek_components
 
                         for (int j = 1; j <= _NumHorizParts; j++)
                         {
-                            Point pt = new Point(Xdist, Ydist, 0.0);
+                            var pt = new Point(Xdist, Ydist, 0.0);
                             CreatePlateM(pt);
-                            Putki = CreatePutki(pt);
-                            Parts.Add(Putki);
-                            InsertUDAs(ref Putki);
-                            CreateWelds(Parts, Welds);
-                            Xdist += _B;
+                           if (i == 1 && j == 1)
+                           {
+                              pipe = CreatePipe(pt, "100");
+                           }
+                           else
+                           {
+                              pipe = CreatePipe(pt, "0");
+                           }
+                           Parts.Add(pipe);
+                           InsertUserdefinedAttributes(pipe);
+                           CreateWelds(Parts, Welds);
+                           Xdist += _B;
                         }
                         Ydist += _H;
                     }
                 }
 
-                _Model.GetWorkPlaneHandler().SetCurrentTransformationPlane(CurrentPlane);
+                _model.GetWorkPlaneHandler().SetCurrentTransformationPlane(currentPlane);
 
             }
             catch (Exception Exc)
@@ -144,73 +151,73 @@ namespace Sewatek_components
         private void GetValuesFromDialog()
         {
 
-            if (!IsDefaultValue(_Data.wpanel))
-                _PanelWidth = _Data.wpanel;
+            if (!IsDefaultValue(_data.wpanel))
+                _PanelWidth = _data.wpanel;
             else
                 _PanelWidth = 200;
 
-            if (!IsDefaultValue(_Data.nHorP))
-                _NumHorizParts = Convert.ToInt16(_Data.nHorP);
+            if (!IsDefaultValue(_data.nHorP))
+                _NumHorizParts = Convert.ToInt16(_data.nHorP);
             else
                 _NumHorizParts = 1;
 
-            if (!IsDefaultValue(_Data.nVerP))
-                _NumVertParts = Convert.ToInt16(_Data.nVerP);
+            if (!IsDefaultValue(_data.nVerP))
+                _NumVertParts = Convert.ToInt16(_data.nVerP);
             else
                 _NumVertParts = 1;
 
-            if (!IsDefaultValue(_Data.P1a))
-                _NameAttribute = _Data.P1a;
+            if (!IsDefaultValue(_data.P1a))
+                _NameAttribute = _data.P1a;
             else
                 _NameAttribute = "SEINALAPIVIENTI_MOD_K100";
 
-            if (!IsDefaultValue(_Data.P2a))
-                _DescriptionAttribute = _Data.P2a;
+            if (!IsDefaultValue(_data.P2a))
+                _DescriptionAttribute = _data.P2a;
             else
                 _DescriptionAttribute = "SEWATEK-SEINALAPIVIENTI MODUULIRAKENTEINEN";
 
-            if (!IsDefaultValue(_Data.P3a))
-                _ProductCodeAttribute = _Data.P3a;
+            if (!IsDefaultValue(_data.P3a))
+                _ProductCodeAttribute = _data.P3a;
             else
                 _ProductCodeAttribute = "SEWATEK";
 
-            if (!IsDefaultValue(_Data.P4a))
-                _AsnumAttribut1 = _Data.P4a;
+            if (!IsDefaultValue(_data.P4a))
+                _AsnumAttribut1 = _data.P4a;
             else
                 _AsnumAttribut1 = "1";
 
-            if (!IsDefaultValue(_Data.P5a))
-                _FinishAttribute = _Data.P5a;
+            if (!IsDefaultValue(_data.P5a))
+                _FinishAttribute = _data.P5a;
             else
                 _FinishAttribute = "Undefined";
 
-            if (!IsDefaultValue(_Data.P6a))
-                _AspreAttribut1 = _Data.P6a;
+            if (!IsDefaultValue(_data.P6a))
+                _AspreAttribut1 = _data.P6a;
             else
                 _AspreAttribut1 = "EB_MOD_K100";
                 
             _MaterialAttribute = "Misc_undefined";
 
-            if (_Data.UDAn1 != String.Empty && _Data.UDAv1 != String.Empty)
+            if (_data.UDAn1 != String.Empty && _data.UDAv1 != String.Empty)
             {
-                _UDAn1 = _Data.UDAn1;
-                _UDAv1 = _Data.UDAv1;
+                _UDAn1 = _data.UDAn1;
+                _UDAv1 = _data.UDAv1;
             }
 
-            if (_Data.UDAn2 != String.Empty && _Data.UDAv2 != String.Empty)
+            if (_data.UDAn2 != String.Empty && _data.UDAv2 != String.Empty)
             {
-                _UDAn2 = _Data.UDAn2;
-                _UDAv2 = _Data.UDAv2;
+                _UDAn2 = _data.UDAn2;
+                _UDAv2 = _data.UDAv2;
             }
 
-            if (_Data.UDAn3 != String.Empty && _Data.UDAv3 != String.Empty)
+            if (_data.UDAn3 != String.Empty && _data.UDAv3 != String.Empty)
             {
-                _UDAn3 = _Data.UDAn3;
-                _UDAv3 = _Data.UDAv3;
+                _UDAn3 = _data.UDAn3;
+                _UDAv3 = _data.UDAv3;
             }
         }
 
-        private void SetDefaultEmbedObjectAttributes(ref ContourPlate Object)
+        private void SetDefaultEmbedObjectAttributes(Part Object, string partClass)
         {
             Object.PartNumber.Prefix = _AspreAttribut1;
             Object.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
@@ -220,35 +227,22 @@ namespace Sewatek_components
             Object.Name = _NameAttribute;
             Object.Material.MaterialString = _MaterialAttribute;
             Object.Finish = _FinishAttribute;
-            Object.Class = "100";
+            Object.Class = partClass;
         }
 
-        private void SetDefaultEmbedObjectAttributes(ref Beam Object)
+        private void InsertUserdefinedAttributes(ModelObject modelObject)
         {
-            Object.PartNumber.Prefix = _AspreAttribut1;
-            Object.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-            Object.AssemblyNumber.Prefix = _AspreAttribut1;
-            Object.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-
-            Object.Name = _NameAttribute;
-            Object.Material.MaterialString = _MaterialAttribute;
-            Object.Finish = _FinishAttribute;
-            Object.Class = "100";
-        }
-
-        private void InsertUDAs(ref Beam Object)
-        {
-            Object.SetUserProperty("PRODUCT_DESCR", _DescriptionAttribute);
-            Object.SetUserProperty("PRODUCT_CODE", _ProductCodeAttribute);
+            modelObject.SetUserProperty("PRODUCT_DESCR", _DescriptionAttribute);
+            modelObject.SetUserProperty("PRODUCT_CODE", _ProductCodeAttribute);
 
             if (_UDAn1 != String.Empty && _UDAv1 != String.Empty)
-                Object.SetUserProperty(_UDAn1, _UDAv1);
+                modelObject.SetUserProperty(_UDAn1, _UDAv1);
 
             if (_UDAn2 != String.Empty && _UDAv2 != String.Empty)
-                Object.SetUserProperty(_UDAn2, _UDAv2);
+                modelObject.SetUserProperty(_UDAn2, _UDAv2);
 
             if (_UDAn3 != String.Empty && _UDAv3 != String.Empty)
-                Object.SetUserProperty(_UDAn3, _UDAv3);
+                modelObject.SetUserProperty(_UDAn3, _UDAv3);
         }
         #endregion
     }
