@@ -105,11 +105,11 @@ namespace Sewatek_components
                    var pt = new Point(Xdist, 0.0, 0.0);
                    if (j == 1)
                    {
-                      beam = CreatePutki(pt, "100");
+                      beam = CreatePutki(pt, "100", "pipe" + j);
                    }
                    else
                    {
-                      beam = CreatePutki(pt, "0");
+                      beam = CreatePutki(pt, "0", "pipe" + j);
                    }
                    Parts.Add(beam);
                     Welds.Add(new Weld());
@@ -196,13 +196,13 @@ namespace Sewatek_components
             }
         }
 
-        private void SetDefaultEmbedPartAttributes(Part part, string partClass)
+        private void SetDefaultEmbedPartAttributes(Part part, string partClass, string label)
         {
             part.PartNumber.Prefix = _AspreAttribut1;
             part.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
             part.AssemblyNumber.Prefix = _AspreAttribut1;
             part.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-
+            part.SetLabel(label);
             part.Name = _NameAttribute;
             part.Material.MaterialString = _MaterialAttribute;
             part.Finish = _FinishAttribute;

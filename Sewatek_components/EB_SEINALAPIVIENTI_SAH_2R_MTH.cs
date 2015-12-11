@@ -24,13 +24,13 @@ namespace Sewatek_components
             {
                 double[] Zcoord = { 0.0, -_PanelWidth };
                 Position.DepthEnum[] DepthVal = { Position.DepthEnum.BEHIND, Position.DepthEnum.FRONT };
-                Parts.Add(CreatePlate(StartPoint, Zcoord[k], DepthVal[k]));
+                Parts.Add(CreatePlate(StartPoint, Zcoord[k], DepthVal[k], "plate"+k));
                 Welds.Add(new Weld());
                 k++;
             }
         }
 
-        private ContourPlate CreatePlate(Point Point1, double Z, Position.DepthEnum PosDepVal)
+        private ContourPlate CreatePlate(Point Point1, double Z, Position.DepthEnum PosDepVal, string label)
         {
             ContourPlate plate1 = new ContourPlate();
             Point Origo = Point1;
@@ -41,7 +41,7 @@ namespace Sewatek_components
             Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_Xd * 3 + _Pd, _H / 2, Z)), null));
             Cpoints.Add(new ContourPoint(new Point(Origo + new Point(_Xd * 3 + _Pd, -(_H / 2), Z)), null));
 
-            SetDefaultEmbedObjectAttributes(plate1, "0");
+            SetDefaultEmbedObjectAttributes(plate1, "0", label);
             plate1.Profile.ProfileString = "PL5";
             plate1.Position.Plane = Position.PlaneEnum.MIDDLE;
             plate1.Position.Rotation = Position.RotationEnum.FRONT;
@@ -60,12 +60,12 @@ namespace Sewatek_components
             return plate1;
         }
 
-        private Beam CreatePutki(Point point, string partClass)
+        private Beam CreatePutki(Point point, string partClass, string label)
         {
             var pipe = new Beam();
             var origo = point;
 
-            SetDefaultEmbedObjectAttributes(pipe, partClass);
+            SetDefaultEmbedObjectAttributes(pipe, partClass, label);
             pipe.StartPoint = new Point(origo + new Point(0.0, 0.0, -5));
             pipe.EndPoint = new Point(origo + new Point(0.0, 0.0, -_PanelWidth + 5));
             pipe.Profile.ProfileString = "D40";
@@ -82,12 +82,12 @@ namespace Sewatek_components
             return pipe;
         }
 
-        private Beam CreatePutkiL(Point Point1, double X, double Y, string partClass)
+        private Beam CreatePutkiL(Point Point1, double X, double Y, string partClass, string label)
         {
             Beam Putki1 = new Beam();
             Point Origo = Point1;
 
-            SetDefaultEmbedObjectAttributes(Putki1,partClass);
+            SetDefaultEmbedObjectAttributes(Putki1,partClass, label);
             Putki1.StartPoint = new Point(Origo + new Point(X, Y, -5));
             Putki1.EndPoint = new Point(Origo + new Point(X, Y, -_PanelWidth + 5));
             Putki1.Profile.ProfileString = "D30";
@@ -104,14 +104,14 @@ namespace Sewatek_components
             return Putki1;
         }
 
-        private void CreatePipeGroup(Point point)
+        private void CreatePipeGroup(Point point, string label)
         {
            double[] Xcoord = { -20, 0.0, 20 };
            double[] Ycoord = { -11.67, 23.33, -11.67 };
             for(var i = 0; i < 3;i++)
             {
                   Welds.Add(new Weld());
-                  Parts.Add(CreatePutkiL(point, Xcoord[i], Ycoord[i], "0"));
+                  Parts.Add(CreatePutkiL(point, Xcoord[i], Ycoord[i], "0", label + "_"+i));
             }
         }
 

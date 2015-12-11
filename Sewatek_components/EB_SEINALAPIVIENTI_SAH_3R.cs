@@ -105,17 +105,17 @@ namespace Sewatek_components
                     var pt = new Point(Xdist, 0.0, 0.0);
                     if (j == 3 || j == 5)
                     {
-                        CreatePipeGroup(pt);
+                        CreatePipeGroup(pt, "pipeGroup"+j);
                     }
                     else
                     {
                        if (j == 1)
                        {
-                          pipe = CreatePipe(pt, "100");
+                          pipe = CreatePipe(pt, "100","pipe"+j);
                        }
                        else
                        {
-                          pipe = CreatePipe(pt, "0");
+                          pipe = CreatePipe(pt, "0","pipe"+j);
                        }
                        Parts.Add(pipe);
                         Welds.Add(new Weld());
@@ -202,13 +202,13 @@ namespace Sewatek_components
             }
         }
 
-        private void SetDefaultEmbedObjectAttributes(Part part, string partClass)
+        private void SetDefaultEmbedObjectAttributes(Part part, string partClass, string label)
         {
             part.PartNumber.Prefix = _AspreAttribut1;
             part.PartNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
             part.AssemblyNumber.Prefix = _AspreAttribut1;
             part.AssemblyNumber.StartNumber = Convert.ToInt32(_AsnumAttribut1);
-
+            part.SetLabel(label);
             part.Name = _NameAttribute;
             part.Material.MaterialString = _MaterialAttribute;
             part.Finish = _FinishAttribute;

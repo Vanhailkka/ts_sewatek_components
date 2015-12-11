@@ -17,12 +17,12 @@ namespace Sewatek_components
                 double[] Zcoord = { 0.0, -_PanelWidth };
                 Position.DepthEnum[] DepthVal = { Position.DepthEnum.BEHIND, Position.DepthEnum.FRONT };
 
-                Parts.Add(CreatePlate(StartPoint, Zcoord[k], DepthVal[k]));
+                Parts.Add(CreatePlate(StartPoint, Zcoord[k], DepthVal[k], "plate"+k));
                 k++;
             }
         }
 
-        private ContourPlate CreatePlate(Point Point1, double Z, Position.DepthEnum PosDepVal)
+        private ContourPlate CreatePlate(Point Point1, double Z, Position.DepthEnum PosDepVal, string label)
         {
             var plate1 = new ContourPlate();
             var origo = Point1;
@@ -33,7 +33,7 @@ namespace Sewatek_components
             contourPoints.Add(new ContourPoint(new Point(origo + new Point(_B / 2, _H / 2, Z)), null));
             contourPoints.Add(new ContourPoint(new Point(origo + new Point(_B / 2, -(_H / 2), Z)), null));
 
-            SetDefaultEmbedObjectAttributes(plate1, "0");
+            SetDefaultEmbedObjectAttributes(plate1, "0", label);
             plate1.Profile.ProfileString = "PL2";
             plate1.Position.Plane = Position.PlaneEnum.MIDDLE;
             plate1.Position.Rotation = Position.RotationEnum.FRONT;
@@ -52,12 +52,12 @@ namespace Sewatek_components
             return plate1;
         }
 
-        private Beam CreatePipe(Point point, string partClass)
+        private Beam CreatePipe(Point point, string partClass, string label)
         {
             var pipe = new Beam();
             var origo = point;
 
-            SetDefaultEmbedObjectAttributes(pipe, partClass);
+            SetDefaultEmbedObjectAttributes(pipe, partClass, label);
             pipe.StartPoint = new Point(origo + new Point(0.0, 0.0, -2));
             pipe.EndPoint = new Point(origo + new Point(0.0, 0.0, -_PanelWidth + 2));
             pipe.Profile.ProfileString = "PD38*2";

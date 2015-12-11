@@ -16,13 +16,13 @@ namespace Sewatek_components
             {
                 double[] Zcoord = { 0.0, -_PanelWidth };
                 Position.DepthEnum[] depthEnums = { Position.DepthEnum.BEHIND, Position.DepthEnum.FRONT };
-                Parts.Add(CreatePlate(StartPoint, Zcoord[k], depthEnums[k]));
+                Parts.Add(CreatePlate(StartPoint, Zcoord[k], depthEnums[k],"plate"+k));
                 Welds.Add(new Weld());
                 k++;
             }
         }
 
-        private ContourPlate CreatePlate(Point point1, double Z, Position.DepthEnum positionDepthValue)
+        private ContourPlate CreatePlate(Point point1, double Z, Position.DepthEnum positionDepthValue, string label)
         {
             var plate1 = new ContourPlate();
             var origo = point1;
@@ -34,7 +34,7 @@ namespace Sewatek_components
                new ContourPoint(new Point(origo + new Point(_Xd*3 + _Pd, -(_H/2), Z)), null)
             };
 
-            SetDefaultEmbedPartAttributes(plate1, "0");
+            SetDefaultEmbedPartAttributes(plate1, "0", label);
             plate1.Profile.ProfileString = "PL5";
             plate1.Position.Plane = Position.PlaneEnum.MIDDLE;
             plate1.Position.Rotation = Position.RotationEnum.FRONT;
@@ -53,12 +53,12 @@ namespace Sewatek_components
             return plate1;
         }
 
-        private Beam CreatePutki(Point Point1, string partClass)
+        private Beam CreatePutki(Point Point1, string partClass, string label)
         {
             var beam = new Beam();
             var origo = Point1;
 
-            SetDefaultEmbedPartAttributes(beam, partClass);
+            SetDefaultEmbedPartAttributes(beam, partClass, label);
             beam.StartPoint = new Point(origo + new Point(0.0, 0.0, -5));
             beam.EndPoint = new Point(origo + new Point(0.0, 0.0, -_PanelWidth + 5));
             beam.Profile.ProfileString = "D40";
